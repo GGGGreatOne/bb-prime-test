@@ -6,7 +6,7 @@ import { NFTApi } from '@/lib/axios'
 import { UserInfoResponse } from '@/app/tasks/type'
 import { useConnectedAddress } from '@/hooks/useWallet'
 import { useAppKit, useDisconnect } from '@reown/appkit/react'
-import { setJWTToken, useJWTToken } from '@/hooks/useJWTToken'
+import { setJWTToken } from '@/hooks/useJWTToken'
 import { useRequest } from 'ahooks'
 import clsx from 'clsx'
 import { CompleteDialog } from '@/components/wireframe/CompleteDialog'
@@ -14,7 +14,7 @@ import { useLogin } from '@/hooks/useLogin'
 import { UserInfo } from '@/hooks/useUserInfo'
 import { shortAddress } from '@/lib/utils'
 import { Config, watchAccount } from '@wagmi/core'
-import { useConfig } from 'wagmi'
+import { useAccountEffect, useConfig } from 'wagmi'
 import { setLocalUserInfo, useLocalUserInfo } from '@/hooks/useLocalUserInfo'
 
 interface VerifyItem {
@@ -23,12 +23,16 @@ interface VerifyItem {
 	action: string
 	method: () => void
 	disabled: boolean
+	verifyMethod?: () => void
 	isVerify?: boolean
 	showDisconnect?: boolean
 }
 
-const VerifyItem = ({ title, step, action, isVerify, disabled, method, showDisconnect }: VerifyItem) => {
-	const token = useJWTToken()
+const VerifyItem = ({ title, step, action, isVerify, disabled, method, showDisconnect, verifyMethod }: VerifyItem) => {
+	const localUserInfo = useLocalUserInfo()
+	const token = useMemo(() => {
+		return localUserInfo.token
+	}, [localUserInfo.token])
 	const { disconnect } = useDisconnect()
 	const verified = useMemo(() => {
 		return isVerify ?? false
@@ -41,11 +45,12 @@ const VerifyItem = ({ title, step, action, isVerify, disabled, method, showDisco
 					<span className='pl-[12px] font-inter text-[18px] text-[#fff] max-xl:text-[14px]'>{title}</span>
 				</div>
 				<div
+					onClick={verifyMethod}
 					className={clsx(
-						'flex h-[28px] items-center gap-1 rounded-[100px] bg-body p-[3px_10px] text-sm text-primary',
+						'flex h-[28px] cursor-pointer items-center gap-1 rounded-[100px] bg-body p-[3px_10px] text-sm text-primary',
 						step !== 1 && !token ? '!bg-[rgba(255,255,255,0.4)]' : ''
 					)}>
-					{verified ? 'Verified' : 'Verify'} {verified && <VerifiedSVG />}
+					{verified ? 'Verified' : 'check'} {verified && <VerifiedSVG />}
 				</div>
 			</div>
 			<PrimeBtn
@@ -53,7 +58,7 @@ const VerifyItem = ({ title, step, action, isVerify, disabled, method, showDisco
 					if (disabled) return
 					method()
 				}}
-				className={clsx('w-[295px] max-xl:w-auto', disabled && 'cursor-not-allowed bg-[rgba(255,255,255,0.4)]')}>
+				className={clsx('w-[295px] max-xl:w-auto', disabled ? 'cursor-not-allowed bg-[rgba(255,255,255,0.4)]' : '')}>
 				{action}
 			</PrimeBtn>
 			{showDisconnect && (
@@ -78,17 +83,18 @@ export const Verify = () => {
 	const token = localUserInfo.token
 	const { login: _login } = useLogin()
 	const wagmiConfig = useConfig() as Config
+	const resetInfo = useCallback(() => {
+		setJWTToken(null)
+		setUserInfo(undefined)
+		setLocalUserInfo({
+			wallet: '',
+			token: ''
+		})
+	}, [])
 	const unwatch = watchAccount(wagmiConfig, {
 		onChange() {
-			console.log('local', localUserInfo.wallet?.toLowerCase())
-			console.log('address', address)
 			if (address && localUserInfo.wallet?.toLowerCase() !== address?.toLowerCase()) {
-				setJWTToken(null)
-				setUserInfo(undefined)
-				setLocalUserInfo({
-					wallet: '',
-					token: ''
-				})
+				resetInfo()
 			}
 		}
 	})
@@ -189,24 +195,12 @@ export const Verify = () => {
 		const tweetUrl = QUOTE_TWEET_URL
 		const comment =
 			'When BlackRock tokenizes and BounceBit mobilizes –\n' +
-			'a new chapter in capital markets begins.' +
+			'a new chapter in capital markets begins.\n\n' +
 			'The black rocks NFT marks that movement.\n' +
 			"I'll be minting soon. There's only 1,000 available."
 		const encodedText = encodeURIComponent(comment + '\n\n' + tweetUrl)
 		window.open(`https://twitter.com/intent/tweet?text=${encodedText}`, '_blank', 'width=600,height=600')
 	}, [])
-
-	const { runAsync: checkTasks } = useRequest(
-		async () => {
-			if (!token) return
-			await Promise.all([discordCheck(), followCheck(), quoteTwitterCheck()])
-		},
-		{
-			ready: !!token,
-			refreshDeps: [token],
-			manual: true
-		}
-	)
 
 	const Verifications = useMemo(() => {
 		return [
@@ -225,6 +219,7 @@ export const Verify = () => {
 				isVerify: userInfo?.IsXFollow,
 				action: userInfo?.XId ? (userInfo?.IsXFollow ? (userInfo?.XName ?? '') : 'Follow Twitter') : 'Twitter Authorization',
 				disabled: !token,
+				verifyMethod: followCheck,
 				method: userInfo?.XId ? openX : authX
 			},
 			{
@@ -233,6 +228,7 @@ export const Verify = () => {
 				isVerify: userInfo?.IsXRetweet,
 				action: 'Quote Twitter',
 				disabled: !token,
+				verifyMethod: quoteTwitterCheck,
 				method: userInfo?.XId ? quoteTwitter : authX
 			},
 			{
@@ -241,10 +237,11 @@ export const Verify = () => {
 				isVerify: userInfo?.IsDiscordJoinGuild,
 				action: userInfo?.DiscordId ? (userInfo?.IsDiscordJoinGuild ? (userInfo?.DiscordName ?? '') : 'Connect Discord') : 'Discord Authorization',
 				disabled: !token,
+				verifyMethod: discordCheck,
 				method: userInfo?.DiscordId ? openDiscord : authDisc
 			}
 		]
-	}, [address, ConnectWallet, authDisc, authX, login, token, userInfo, openDiscord, openX, quoteTwitter])
+	}, [address, ConnectWallet, authDisc, authX, login, token, userInfo, openDiscord, openX, quoteTwitter, quoteTwitterCheck, discordCheck, followCheck])
 
 	useEffect(() => {
 		if (userInfo?.IsDiscordJoinGuild && userInfo?.IsXRetweet && userInfo?.IsXFollow && !hasShowTip) {
@@ -253,16 +250,16 @@ export const Verify = () => {
 		}
 	}, [userInfo, hasShowTip])
 
-	// useEffect(() => {
-	// 	if (address) {
-	// 		setJWTToken(null)
-	// 		setUserInfo(undefined)
-	// 	}
-	// }, [address])
-
 	useEffect(() => {
-		if (userInfo?.Account !== address) setUserInfo(undefined)
-	}, [userInfo, address])
+		if (address && address !== localUserInfo?.wallet) resetInfo()
+	}, [address, localUserInfo?.wallet, resetInfo])
+
+	useAccountEffect({
+		onDisconnect() {
+			console.log('onDisconnect')
+			resetInfo()
+		}
+	})
 
 	return (
 		<div className='mt-[64px] flex flex-col gap-[40px]'>
@@ -280,11 +277,6 @@ export const Verify = () => {
 					/>
 				)
 			})}
-			<div className='text-center'>
-				<PrimeBtn className={clsx('w-[295px] max-xl:w-auto', !token && 'cursor-not-allowed bg-[rgba(255,255,255,0.4)]')} onClick={checkTasks}>
-					Verification Tasks
-				</PrimeBtn>
-			</div>
 			<CompleteDialog open={open} setOpen={o => setOpen(o)} />
 		</div>
 	)

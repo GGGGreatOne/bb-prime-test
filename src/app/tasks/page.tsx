@@ -1,3 +1,4 @@
+'use client'
 import { Verify } from '@/components/wireframe/Verify'
 import { Drop } from '@/components/Drop'
 

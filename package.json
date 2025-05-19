@@ -1,6 +1,6 @@
 {
 	"name": "portal-v2",
-	"version": "0.6.3",
+	"version": "0.6.6",
 	"private": true,
 	"scripts": {
 		"dev": "env-cmd -f .env_development next dev -p 8848",

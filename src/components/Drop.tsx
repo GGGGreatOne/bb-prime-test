@@ -17,7 +17,7 @@ export const Drop = ({ whiteText }: { whiteText?: boolean }) => {
 			</p>
 			<p className='mb-6 max-sm:text-[16px]'>Only 1,000 will ever exist — entrusted to the few who lead, not follow.</p>
 			<p className='mb-6 max-sm:text-[16px]'>Minted exclusively on the BounceBit chain. Free of cost. Eternal in value</p>
-			<p>Own a piece of history.</p>
+			<p className='max-sm:text-[16px]'>Own a piece of history.</p>
 		</div>
 	)
 }

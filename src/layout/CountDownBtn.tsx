@@ -1,3 +1,4 @@
+'use client'
 import PrimeBtn from '@/components/button'
 import { useCountDown } from 'ahooks'
 import { MINT_START_TS } from '@/const'

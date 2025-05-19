@@ -1,5 +1,5 @@
 import { createStore, useStore } from 'zustand'
-import { getStorage, setStorage } from '@/lib/storage'
+import { setStorage } from '@/lib/storage'
 
 export const LOCAL_USER_INFO = 'LOCAL_USER_INFO'
 
@@ -12,8 +12,8 @@ export const localUserInfoStore = createStore<{
 	userInfo: LocalUserInfo
 }>(() => ({
 	userInfo: {
-		wallet: JSON.parse(getStorage(LOCAL_USER_INFO) ?? '{}').wallet,
-		token: JSON.parse(getStorage(LOCAL_USER_INFO) ?? '{}').token
+		wallet: undefined,
+		token: null
 	}
 }))
 
