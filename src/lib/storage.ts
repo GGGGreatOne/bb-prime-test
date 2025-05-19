@@ -1,4 +1,6 @@
-type Key = 'wallet' | 'token' | 'chain' | 'convert-tab' | 'dapp-tab' | 'token-list'
+import { LOCAL_USER_INFO } from '@/hooks/useLocalUserInfo'
+
+type Key = 'wallet' | 'token' | 'chain' | 'convert-tab' | 'dapp-tab' | 'token-list' | 'LOCAL_USER_INFO'
 
 export const setStorage = (key: Key, value: string) => {
 	window.localStorage.setItem(key, value)
