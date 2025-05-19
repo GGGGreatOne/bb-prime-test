@@ -1,0 +1,2024 @@
+{
+	"address": "6qN1ruT39A19Uby9K7EZtgf9fHunqS53ovkskBkgV7t2",
+	"metadata": {
+		"name": "cedefi_v_2",
+		"version": "0.1.0",
+		"spec": "0.1.0",
+		"description": "Created with Anchor"
+	},
+	"instructions": [
+		{
+			"name": "batch_claim",
+			"discriminator": [3, 1, 13, 209, 198, 215, 144, 13],
+			"accounts": [
+				{
+					"name": "configure",
+					"docs": ["Global configuration"],
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [99, 111, 110, 102, 105, 103, 117, 114, 101]
+							}
+						]
+					}
+				},
+				{
+					"name": "vault",
+					"docs": ["Token Vault"],
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [118, 97, 117, 108, 116]
+							},
+							{
+								"kind": "arg",
+								"path": "arg.token"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.strategy_id"
+							}
+						]
+					}
+				},
+				{
+					"name": "close_requests",
+					"docs": ["Close Request"],
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [99, 108, 111, 115, 101, 95, 114, 101, 113, 117, 101, 115, 116, 115]
+							},
+							{
+								"kind": "account",
+								"path": "user"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.token"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.strategy_id"
+							}
+						]
+					}
+				},
+				{
+					"name": "user_token_account",
+					"docs": ["用户的代币账户（需要转账的代币）"],
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "account",
+								"path": "user"
+							},
+							{
+								"kind": "account",
+								"path": "token_program"
+							},
+							{
+								"kind": "account",
+								"path": "mint"
+							}
+						],
+						"program": {
+							"kind": "const",
+							"value": [
+								140, 151, 37, 143, 78, 36, 137, 241, 187, 61, 16, 41, 20, 142, 13, 131, 11, 90, 19, 153, 218, 255, 16, 132, 4, 142, 123, 216, 219, 233, 248, 89
+							]
+						}
+					}
+				},
+				{
+					"name": "program_token_account",
+					"docs": ["程序的代币账户（接收代币的 ATA）"],
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [116, 114, 101, 97, 115, 117, 114, 121]
+							},
+							{
+								"kind": "account",
+								"path": "mint"
+							}
+						]
+					}
+				},
+				{
+					"name": "mint"
+				},
+				{
+					"name": "token_program"
+				},
+				{
+					"name": "user",
+					"docs": ["The user."],
+					"writable": true,
+					"signer": true
+				},
+				{
+					"name": "system_program",
+					"docs": ["The [System] program."],
+					"address": "11111111111111111111111111111111"
+				},
+				{
+					"name": "rent",
+					"docs": ["The [Rent] program."],
+					"address": "SysvarRent111111111111111111111111111111111"
+				}
+			],
+			"args": [
+				{
+					"name": "arg",
+					"type": {
+						"defined": {
+							"name": "BatchClaimArg"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "close_all",
+			"discriminator": [222, 63, 176, 132, 200, 69, 45, 127],
+			"accounts": [
+				{
+					"name": "configure",
+					"docs": ["Global configuration"],
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [99, 111, 110, 102, 105, 103, 117, 114, 101]
+							}
+						]
+					}
+				},
+				{
+					"name": "vault",
+					"docs": ["Token Vault"],
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [118, 97, 117, 108, 116]
+							},
+							{
+								"kind": "arg",
+								"path": "arg.token"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.strategy_id"
+							}
+						]
+					}
+				},
+				{
+					"name": "daily_info",
+					"docs": ["Daily Information"],
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [100, 97, 105, 108, 121, 95, 105, 110, 102, 111]
+							},
+							{
+								"kind": "arg",
+								"path": "arg.token"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.strategy_id"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.date_no"
+							}
+						]
+					}
+				},
+				{
+					"name": "total_info",
+					"docs": ["Total Information"],
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [116, 111, 116, 97, 108, 95, 105, 110, 102, 111]
+							},
+							{
+								"kind": "arg",
+								"path": "arg.token"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.strategy_id"
+							}
+						]
+					}
+				},
+				{
+					"name": "open_requests",
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [111, 112, 101, 110, 95, 114, 101, 113, 117, 101, 115, 116, 115]
+							},
+							{
+								"kind": "account",
+								"path": "user"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.token"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.strategy_id"
+							}
+						]
+					}
+				},
+				{
+					"name": "close_requests",
+					"docs": ["Close Request"],
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [99, 108, 111, 115, 101, 95, 114, 101, 113, 117, 101, 115, 116, 115]
+							},
+							{
+								"kind": "account",
+								"path": "user"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.token"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.strategy_id"
+							}
+						]
+					}
+				},
+				{
+					"name": "user",
+					"docs": ["The user."],
+					"writable": true,
+					"signer": true
+				},
+				{
+					"name": "system_program",
+					"docs": ["The [System] program."],
+					"address": "11111111111111111111111111111111"
+				},
+				{
+					"name": "rent",
+					"docs": ["The [Rent] program."],
+					"address": "SysvarRent111111111111111111111111111111111"
+				}
+			],
+			"args": [
+				{
+					"name": "arg",
+					"type": {
+						"defined": {
+							"name": "CloseAllArg"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "fast_close",
+			"discriminator": [35, 249, 1, 182, 54, 214, 114, 218],
+			"accounts": [
+				{
+					"name": "configure",
+					"docs": ["Global configuration"],
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [99, 111, 110, 102, 105, 103, 117, 114, 101]
+							}
+						]
+					}
+				},
+				{
+					"name": "vault",
+					"docs": ["Token Vault"],
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [118, 97, 117, 108, 116]
+							},
+							{
+								"kind": "arg",
+								"path": "arg.token"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.strategy_id"
+							}
+						]
+					}
+				},
+				{
+					"name": "daily_info",
+					"docs": ["Daily Information"],
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [100, 97, 105, 108, 121, 95, 105, 110, 102, 111]
+							},
+							{
+								"kind": "arg",
+								"path": "arg.token"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.strategy_id"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.date_no"
+							}
+						]
+					}
+				},
+				{
+					"name": "total_info",
+					"docs": ["Total Information"],
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [116, 111, 116, 97, 108, 95, 105, 110, 102, 111]
+							},
+							{
+								"kind": "arg",
+								"path": "arg.token"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.strategy_id"
+							}
+						]
+					}
+				},
+				{
+					"name": "open_requests",
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [111, 112, 101, 110, 95, 114, 101, 113, 117, 101, 115, 116, 115]
+							},
+							{
+								"kind": "account",
+								"path": "user"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.token"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.strategy_id"
+							}
+						]
+					}
+				},
+				{
+					"name": "close_requests",
+					"docs": ["Close Request"],
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [99, 108, 111, 115, 101, 95, 114, 101, 113, 117, 101, 115, 116, 115]
+							},
+							{
+								"kind": "account",
+								"path": "user"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.token"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.strategy_id"
+							}
+						]
+					}
+				},
+				{
+					"name": "user",
+					"docs": ["The user."],
+					"writable": true,
+					"signer": true
+				},
+				{
+					"name": "system_program",
+					"docs": ["The [System] program."],
+					"address": "11111111111111111111111111111111"
+				},
+				{
+					"name": "rent",
+					"docs": ["The [Rent] program."],
+					"address": "SysvarRent111111111111111111111111111111111"
+				}
+			],
+			"args": [
+				{
+					"name": "arg",
+					"type": {
+						"defined": {
+							"name": "FastCloseArg"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "initialize",
+			"discriminator": [175, 175, 109, 31, 13, 152, 155, 237],
+			"accounts": [
+				{
+					"name": "configure",
+					"docs": ["Global configuration"],
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [99, 111, 110, 102, 105, 103, 117, 114, 101]
+							}
+						]
+					}
+				},
+				{
+					"name": "user",
+					"docs": ["The user."],
+					"writable": true,
+					"signer": true
+				},
+				{
+					"name": "system_program",
+					"docs": ["The [System] program."],
+					"address": "11111111111111111111111111111111"
+				},
+				{
+					"name": "rent",
+					"docs": ["The [Rent] program."],
+					"address": "SysvarRent111111111111111111111111111111111"
+				}
+			],
+			"args": [
+				{
+					"name": "arg",
+					"type": {
+						"defined": {
+							"name": "InitializeArg"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "normal_close",
+			"discriminator": [196, 124, 154, 190, 159, 139, 127, 223],
+			"accounts": [
+				{
+					"name": "configure",
+					"docs": ["Global configuration"],
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [99, 111, 110, 102, 105, 103, 117, 114, 101]
+							}
+						]
+					}
+				},
+				{
+					"name": "vault",
+					"docs": ["Token Vault"],
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [118, 97, 117, 108, 116]
+							},
+							{
+								"kind": "arg",
+								"path": "arg.token"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.strategy_id"
+							}
+						]
+					}
+				},
+				{
+					"name": "daily_info",
+					"docs": ["Daily Information"],
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [100, 97, 105, 108, 121, 95, 105, 110, 102, 111]
+							},
+							{
+								"kind": "arg",
+								"path": "arg.token"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.strategy_id"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.date_no"
+							}
+						]
+					}
+				},
+				{
+					"name": "total_info",
+					"docs": ["Total Information"],
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [116, 111, 116, 97, 108, 95, 105, 110, 102, 111]
+							},
+							{
+								"kind": "arg",
+								"path": "arg.token"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.strategy_id"
+							}
+						]
+					}
+				},
+				{
+					"name": "open_requests",
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [111, 112, 101, 110, 95, 114, 101, 113, 117, 101, 115, 116, 115]
+							},
+							{
+								"kind": "account",
+								"path": "user"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.token"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.strategy_id"
+							}
+						]
+					}
+				},
+				{
+					"name": "close_requests",
+					"docs": ["Close Request"],
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [99, 108, 111, 115, 101, 95, 114, 101, 113, 117, 101, 115, 116, 115]
+							},
+							{
+								"kind": "account",
+								"path": "user"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.token"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.strategy_id"
+							}
+						]
+					}
+				},
+				{
+					"name": "user",
+					"docs": ["The user."],
+					"writable": true,
+					"signer": true
+				},
+				{
+					"name": "system_program",
+					"docs": ["The [System] program."],
+					"address": "11111111111111111111111111111111"
+				},
+				{
+					"name": "rent",
+					"docs": ["The [Rent] program."],
+					"address": "SysvarRent111111111111111111111111111111111"
+				}
+			],
+			"args": [
+				{
+					"name": "arg",
+					"type": {
+						"defined": {
+							"name": "NormalCloseArg"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "open",
+			"discriminator": [228, 220, 155, 71, 199, 189, 60, 45],
+			"accounts": [
+				{
+					"name": "configure",
+					"docs": ["Global configuration"],
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [99, 111, 110, 102, 105, 103, 117, 114, 101]
+							}
+						]
+					}
+				},
+				{
+					"name": "vault",
+					"docs": ["Token Vault"],
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [118, 97, 117, 108, 116]
+							},
+							{
+								"kind": "arg",
+								"path": "arg.token"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.strategy_id"
+							}
+						]
+					}
+				},
+				{
+					"name": "daily_info",
+					"docs": ["Daily Information"],
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [100, 97, 105, 108, 121, 95, 105, 110, 102, 111]
+							},
+							{
+								"kind": "arg",
+								"path": "arg.token"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.strategy_id"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.date_no"
+							}
+						]
+					}
+				},
+				{
+					"name": "open_requests",
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [111, 112, 101, 110, 95, 114, 101, 113, 117, 101, 115, 116, 115]
+							},
+							{
+								"kind": "account",
+								"path": "user"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.token"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.strategy_id"
+							}
+						]
+					}
+				},
+				{
+					"name": "user_token_account",
+					"docs": ["用户的代币账户（需要转账的代币）"],
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "account",
+								"path": "user"
+							},
+							{
+								"kind": "account",
+								"path": "token_program"
+							},
+							{
+								"kind": "account",
+								"path": "mint"
+							}
+						],
+						"program": {
+							"kind": "const",
+							"value": [
+								140, 151, 37, 143, 78, 36, 137, 241, 187, 61, 16, 41, 20, 142, 13, 131, 11, 90, 19, 153, 218, 255, 16, 132, 4, 142, 123, 216, 219, 233, 248, 89
+							]
+						}
+					}
+				},
+				{
+					"name": "program_token_account",
+					"docs": ["程序的代币账户（接收代币的 ATA）"],
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [116, 114, 101, 97, 115, 117, 114, 121]
+							},
+							{
+								"kind": "account",
+								"path": "mint"
+							}
+						]
+					}
+				},
+				{
+					"name": "mint"
+				},
+				{
+					"name": "token_program"
+				},
+				{
+					"name": "user",
+					"docs": ["The user."],
+					"writable": true,
+					"signer": true
+				},
+				{
+					"name": "system_program",
+					"docs": ["The [System] program."],
+					"address": "11111111111111111111111111111111"
+				},
+				{
+					"name": "rent",
+					"docs": ["The [Rent] program."],
+					"address": "SysvarRent111111111111111111111111111111111"
+				}
+			],
+			"args": [
+				{
+					"name": "arg",
+					"type": {
+						"defined": {
+							"name": "OpenArg"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "rebase_with_limit",
+			"discriminator": [221, 52, 206, 56, 167, 28, 250, 35],
+			"accounts": [
+				{
+					"name": "configure",
+					"docs": ["Global configuration"]
+				},
+				{
+					"name": "vault",
+					"docs": ["Token Vault"],
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [118, 97, 117, 108, 116]
+							},
+							{
+								"kind": "arg",
+								"path": "arg.token"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.strategy_id"
+							}
+						]
+					}
+				},
+				{
+					"name": "prev_daily_info",
+					"docs": ["Previous Daily Information"]
+				},
+				{
+					"name": "daily_info",
+					"docs": ["Daily Information"],
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [100, 97, 105, 108, 121, 95, 105, 110, 102, 111]
+							},
+							{
+								"kind": "arg",
+								"path": "arg.token"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.strategy_id"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.date_no"
+							}
+						]
+					}
+				},
+				{
+					"name": "total_info",
+					"docs": ["Total Information"],
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [116, 111, 116, 97, 108, 95, 105, 110, 102, 111]
+							},
+							{
+								"kind": "arg",
+								"path": "arg.token"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.strategy_id"
+							}
+						]
+					}
+				},
+				{
+					"name": "user",
+					"docs": ["The user."],
+					"writable": true,
+					"signer": true
+				},
+				{
+					"name": "system_program",
+					"docs": ["The [System] program."],
+					"address": "11111111111111111111111111111111"
+				},
+				{
+					"name": "rent",
+					"docs": ["The [Rent] program."],
+					"address": "SysvarRent111111111111111111111111111111111"
+				}
+			],
+			"args": [
+				{
+					"name": "arg",
+					"type": {
+						"defined": {
+							"name": "RebaseArg"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "rebase_without_limit",
+			"discriminator": [144, 50, 74, 197, 71, 74, 17, 38],
+			"accounts": [
+				{
+					"name": "configure",
+					"docs": ["Global configuration"]
+				},
+				{
+					"name": "vault",
+					"docs": ["Token Vault"],
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [118, 97, 117, 108, 116]
+							},
+							{
+								"kind": "arg",
+								"path": "arg.token"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.strategy_id"
+							}
+						]
+					}
+				},
+				{
+					"name": "prev_daily_info",
+					"docs": ["Previous Daily Information"]
+				},
+				{
+					"name": "daily_info",
+					"docs": ["Daily Information"],
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [100, 97, 105, 108, 121, 95, 105, 110, 102, 111]
+							},
+							{
+								"kind": "arg",
+								"path": "arg.token"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.strategy_id"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.date_no"
+							}
+						]
+					}
+				},
+				{
+					"name": "total_info",
+					"docs": ["Total Information"],
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [116, 111, 116, 97, 108, 95, 105, 110, 102, 111]
+							},
+							{
+								"kind": "arg",
+								"path": "arg.token"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.strategy_id"
+							}
+						]
+					}
+				},
+				{
+					"name": "user",
+					"docs": ["The user."],
+					"writable": true,
+					"signer": true
+				},
+				{
+					"name": "system_program",
+					"docs": ["The [System] program."],
+					"address": "11111111111111111111111111111111"
+				},
+				{
+					"name": "rent",
+					"docs": ["The [Rent] program."],
+					"address": "SysvarRent111111111111111111111111111111111"
+				}
+			],
+			"args": [
+				{
+					"name": "arg",
+					"type": {
+						"defined": {
+							"name": "RebaseArg"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "register_vault",
+			"discriminator": [121, 62, 4, 122, 93, 231, 119, 49],
+			"accounts": [
+				{
+					"name": "configure",
+					"docs": ["Global configuration"],
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [99, 111, 110, 102, 105, 103, 117, 114, 101]
+							}
+						]
+					}
+				},
+				{
+					"name": "vault",
+					"docs": ["Token Vault"],
+					"writable": true,
+					"pda": {
+						"seeds": [
+							{
+								"kind": "const",
+								"value": [118, 97, 117, 108, 116]
+							},
+							{
+								"kind": "account",
+								"path": "token_address"
+							},
+							{
+								"kind": "arg",
+								"path": "arg.strategy_id"
+							}
+						]
+					}
+				},
+				{
+					"name": "token_address",
+					"docs": ["Token address"]
+				},
+				{
+					"name": "user",
+					"docs": ["The user."],
+					"writable": true,
+					"signer": true
+				},
+				{
+					"name": "system_program",
+					"docs": ["The [System] program."],
+					"address": "11111111111111111111111111111111"
+				},
+				{
+					"name": "rent",
+					"docs": ["The [Rent] program."],
+					"address": "SysvarRent111111111111111111111111111111111"
+				}
+			],
+			"args": [
+				{
+					"name": "arg",
+					"type": {
+						"defined": {
+							"name": "RegisterVaultArg"
+						}
+					}
+				}
+			]
+		}
+	],
+	"accounts": [
+		{
+			"name": "CloseRequests",
+			"discriminator": [72, 24, 42, 105, 215, 85, 13, 164]
+		},
+		{
+			"name": "Configure",
+			"discriminator": [203, 61, 5, 203, 76, 241, 174, 6]
+		},
+		{
+			"name": "DailyInfo",
+			"discriminator": [241, 53, 100, 51, 78, 232, 177, 254]
+		},
+		{
+			"name": "OpenRequests",
+			"discriminator": [216, 148, 224, 127, 28, 21, 217, 78]
+		},
+		{
+			"name": "TotalInfo",
+			"discriminator": [169, 31, 225, 174, 83, 54, 210, 113]
+		},
+		{
+			"name": "Vault",
+			"discriminator": [211, 8, 232, 43, 2, 152, 117, 119]
+		}
+	],
+	"events": [
+		{
+			"name": "Claimed",
+			"discriminator": [217, 192, 123, 72, 108, 150, 248, 33]
+		},
+		{
+			"name": "FastClosed",
+			"discriminator": [234, 112, 166, 198, 148, 100, 100, 34]
+		},
+		{
+			"name": "FeeRateSet",
+			"discriminator": [122, 135, 53, 85, 40, 42, 251, 192]
+		},
+		{
+			"name": "FeeReceiverSet",
+			"discriminator": [93, 36, 93, 45, 178, 182, 191, 232]
+		},
+		{
+			"name": "ForwardToSet",
+			"discriminator": [192, 147, 158, 218, 152, 140, 222, 161]
+		},
+		{
+			"name": "Initialized",
+			"discriminator": [208, 213, 115, 98, 115, 82, 201, 209]
+		},
+		{
+			"name": "NormalClosed",
+			"discriminator": [13, 197, 233, 63, 85, 244, 14, 172]
+		},
+		{
+			"name": "Opened",
+			"discriminator": [166, 172, 97, 9, 77, 76, 189, 109]
+		},
+		{
+			"name": "RebaseOperatorSet",
+			"discriminator": [126, 100, 218, 130, 64, 214, 95, 20]
+		},
+		{
+			"name": "RebaseRateLimitSet",
+			"discriminator": [70, 209, 231, 167, 91, 113, 78, 198]
+		},
+		{
+			"name": "Rebased",
+			"discriminator": [191, 57, 120, 100, 252, 208, 74, 136]
+		},
+		{
+			"name": "VaultRegistered",
+			"discriminator": [215, 55, 28, 170, 12, 58, 41, 93]
+		}
+	],
+	"errors": [
+		{
+			"code": 6000,
+			"name": "AmountTooSmall",
+			"msg": "The amount is too small"
+		},
+		{
+			"code": 6001,
+			"name": "InvalidAuthority",
+			"msg": "Authority is not valid"
+		},
+		{
+			"code": 6002,
+			"name": "InvalidDateNo",
+			"msg": "Invalid date number"
+		},
+		{
+			"code": 6003,
+			"name": "ExceedMaxValue",
+			"msg": "Exceed maximum value"
+		},
+		{
+			"code": 6004,
+			"name": "FunctionDisabled",
+			"msg": "The function is disabled"
+		},
+		{
+			"code": 6005,
+			"name": "RebaseExceedLimit",
+			"msg": "Rebase exceeds limit"
+		},
+		{
+			"code": 6006,
+			"name": "RequestAmountTooLarge",
+			"msg": "Request amount too large"
+		},
+		{
+			"code": 6007,
+			"name": "SomeElementNotMatch",
+			"msg": "Some element not match"
+		},
+		{
+			"code": 6008,
+			"name": "VaultDisabled",
+			"msg": "The vault is disabled"
+		}
+	],
+	"types": [
+		{
+			"name": "BatchClaimArg",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "token",
+						"type": "pubkey"
+					},
+					{
+						"name": "strategy_id",
+						"type": "u16"
+					},
+					{
+						"name": "date_no",
+						"type": "u32"
+					},
+					{
+						"name": "close_ids",
+						"type": {
+							"vec": "u64"
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "Claimed",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "token",
+						"type": "pubkey"
+					},
+					{
+						"name": "strategy_id",
+						"type": "u16"
+					},
+					{
+						"name": "account",
+						"type": "pubkey"
+					},
+					{
+						"name": "date_no",
+						"type": "u32"
+					},
+					{
+						"name": "close_id",
+						"type": "u64"
+					},
+					{
+						"name": "assets",
+						"type": "u64"
+					},
+					{
+						"name": "fee",
+						"type": "u64"
+					}
+				]
+			}
+		},
+		{
+			"name": "CloseAllArg",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "token",
+						"type": "pubkey"
+					},
+					{
+						"name": "strategy_id",
+						"type": "u16"
+					},
+					{
+						"name": "date_no",
+						"type": "u32"
+					}
+				]
+			}
+		},
+		{
+			"name": "CloseRequest",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "id",
+						"type": "u64"
+					},
+					{
+						"name": "assets",
+						"type": "u64"
+					},
+					{
+						"name": "fee",
+						"type": "u64"
+					},
+					{
+						"name": "pending_until",
+						"type": "u32"
+					}
+				]
+			}
+		},
+		{
+			"name": "CloseRequests",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "items",
+						"type": {
+							"vec": {
+								"defined": {
+									"name": "CloseRequest"
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "Configure",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "authority",
+						"type": "pubkey"
+					},
+					{
+						"name": "rebase_operator",
+						"type": "pubkey"
+					},
+					{
+						"name": "forward_to",
+						"type": "pubkey"
+					},
+					{
+						"name": "fee_recipient",
+						"type": "pubkey"
+					},
+					{
+						"name": "fee_rate",
+						"type": "u64"
+					},
+					{
+						"name": "rebase_rate_limit",
+						"type": "u64"
+					}
+				]
+			}
+		},
+		{
+			"name": "DailyInfo",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "pending_stakes",
+						"type": "u64"
+					},
+					{
+						"name": "stakes",
+						"type": "u64"
+					},
+					{
+						"name": "shares",
+						"type": "u64"
+					},
+					{
+						"name": "rewards",
+						"type": "u64"
+					}
+				]
+			}
+		},
+		{
+			"name": "FastCloseArg",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "token",
+						"type": "pubkey"
+					},
+					{
+						"name": "strategy_id",
+						"type": "u16"
+					},
+					{
+						"name": "date_no",
+						"type": "u32"
+					},
+					{
+						"name": "close_request_id",
+						"type": "u64"
+					}
+				]
+			}
+		},
+		{
+			"name": "FastClosed",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "token",
+						"type": "pubkey"
+					},
+					{
+						"name": "strategy_id",
+						"type": "u16"
+					},
+					{
+						"name": "account",
+						"type": "pubkey"
+					},
+					{
+						"name": "date_no",
+						"type": "u32"
+					},
+					{
+						"name": "clearing_date_no",
+						"type": "u32"
+					},
+					{
+						"name": "assets",
+						"type": "u64"
+					},
+					{
+						"name": "shares",
+						"type": "u64"
+					},
+					{
+						"name": "fee",
+						"type": "u64"
+					},
+					{
+						"name": "principal",
+						"type": "u64"
+					}
+				]
+			}
+		},
+		{
+			"name": "FeeRateSet",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "account",
+						"type": "pubkey"
+					},
+					{
+						"name": "fee_rate",
+						"type": "u64"
+					}
+				]
+			}
+		},
+		{
+			"name": "FeeReceiverSet",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "account",
+						"type": "pubkey"
+					},
+					{
+						"name": "fee_recipient",
+						"type": "pubkey"
+					}
+				]
+			}
+		},
+		{
+			"name": "ForwardToSet",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "account",
+						"type": "pubkey"
+					},
+					{
+						"name": "forward_to",
+						"type": "pubkey"
+					}
+				]
+			}
+		},
+		{
+			"name": "InitializeArg",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "authority",
+						"type": "pubkey"
+					},
+					{
+						"name": "rebase_operator",
+						"type": "pubkey"
+					},
+					{
+						"name": "forward_to",
+						"type": "pubkey"
+					},
+					{
+						"name": "fee_recipient",
+						"type": "pubkey"
+					},
+					{
+						"name": "fee_rate",
+						"type": "u64"
+					},
+					{
+						"name": "rebase_rate_limit",
+						"type": "u64"
+					}
+				]
+			}
+		},
+		{
+			"name": "Initialized",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "account",
+						"type": "pubkey"
+					},
+					{
+						"name": "authority",
+						"type": "pubkey"
+					}
+				]
+			}
+		},
+		{
+			"name": "NormalCloseArg",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "token",
+						"type": "pubkey"
+					},
+					{
+						"name": "strategy_id",
+						"type": "u16"
+					},
+					{
+						"name": "date_no",
+						"type": "u32"
+					},
+					{
+						"name": "shares",
+						"type": "u64"
+					},
+					{
+						"name": "close_request_id",
+						"type": "u64"
+					}
+				]
+			}
+		},
+		{
+			"name": "NormalClosed",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "token",
+						"type": "pubkey"
+					},
+					{
+						"name": "strategy_id",
+						"type": "u16"
+					},
+					{
+						"name": "account",
+						"type": "pubkey"
+					},
+					{
+						"name": "date_no",
+						"type": "u32"
+					},
+					{
+						"name": "clearing_date_no",
+						"type": "u32"
+					},
+					{
+						"name": "assets",
+						"type": "u64"
+					},
+					{
+						"name": "shares",
+						"type": "u64"
+					}
+				]
+			}
+		},
+		{
+			"name": "OpenArg",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "token",
+						"type": "pubkey"
+					},
+					{
+						"name": "strategy_id",
+						"type": "u16"
+					},
+					{
+						"name": "date_no",
+						"type": "u32"
+					},
+					{
+						"name": "assets",
+						"type": "u64"
+					}
+				]
+			}
+		},
+		{
+			"name": "OpenRequest",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "principal",
+						"type": "u64"
+					},
+					{
+						"name": "closed_shares",
+						"type": "u64"
+					},
+					{
+						"name": "pending_until_date_no",
+						"type": "u32"
+					},
+					{
+						"name": "create_date_no",
+						"type": "u32"
+					},
+					{
+						"name": "open_date_no",
+						"type": "u32"
+					}
+				]
+			}
+		},
+		{
+			"name": "OpenRequests",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "items",
+						"type": {
+							"vec": {
+								"defined": {
+									"name": "OpenRequest"
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+		{
+			"name": "Opened",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "token",
+						"type": "pubkey"
+					},
+					{
+						"name": "strategy_id",
+						"type": "u16"
+					},
+					{
+						"name": "account",
+						"type": "pubkey"
+					},
+					{
+						"name": "create_date_no",
+						"type": "u32"
+					},
+					{
+						"name": "open_date_no",
+						"type": "u32"
+					},
+					{
+						"name": "assets",
+						"type": "u64"
+					}
+				]
+			}
+		},
+		{
+			"name": "RebaseArg",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "token",
+						"type": "pubkey"
+					},
+					{
+						"name": "strategy_id",
+						"type": "u16"
+					},
+					{
+						"name": "date_no",
+						"type": "u32"
+					},
+					{
+						"name": "rewards",
+						"type": "u64"
+					}
+				]
+			}
+		},
+		{
+			"name": "RebaseOperatorSet",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "account",
+						"type": "pubkey"
+					},
+					{
+						"name": "rebase_operator",
+						"type": "pubkey"
+					}
+				]
+			}
+		},
+		{
+			"name": "RebaseRateLimitSet",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "account",
+						"type": "pubkey"
+					},
+					{
+						"name": "rebase_rate_limit",
+						"type": "u64"
+					}
+				]
+			}
+		},
+		{
+			"name": "Rebased",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "token",
+						"type": "pubkey"
+					},
+					{
+						"name": "strategy_id",
+						"type": "u16"
+					},
+					{
+						"name": "account",
+						"type": "pubkey"
+					},
+					{
+						"name": "date_no",
+						"type": "u32"
+					},
+					{
+						"name": "rewards",
+						"type": "u64"
+					},
+					{
+						"name": "total_stakes",
+						"type": "u64"
+					},
+					{
+						"name": "total_shares",
+						"type": "u64"
+					},
+					{
+						"name": "total_reward",
+						"type": "u64"
+					}
+				]
+			}
+		},
+		{
+			"name": "RegisterVaultArg",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "strategy_id",
+						"type": "u16"
+					},
+					{
+						"name": "open_cooldown_days",
+						"type": "u32"
+					},
+					{
+						"name": "open_date_offset",
+						"type": "u32"
+					},
+					{
+						"name": "minimal_amount",
+						"type": "u64"
+					}
+				]
+			}
+		},
+		{
+			"name": "TotalInfo",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "stakes",
+						"type": "u64"
+					},
+					{
+						"name": "shares",
+						"type": "u64"
+					},
+					{
+						"name": "rewards",
+						"type": "u64"
+					}
+				]
+			}
+		},
+		{
+			"name": "Vault",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "is_vault_enable",
+						"type": "bool"
+					},
+					{
+						"name": "is_open_enable",
+						"type": "bool"
+					},
+					{
+						"name": "is_normal_close_enable",
+						"type": "bool"
+					},
+					{
+						"name": "is_fast_close_enable",
+						"type": "bool"
+					},
+					{
+						"name": "is_claim_enable",
+						"type": "bool"
+					},
+					{
+						"name": "open_cooldown_days",
+						"type": "u32"
+					},
+					{
+						"name": "open_date_offset",
+						"type": "u32"
+					},
+					{
+						"name": "clearing_date_no",
+						"type": "u32"
+					},
+					{
+						"name": "minimal_amount",
+						"type": "u64"
+					}
+				]
+			}
+		},
+		{
+			"name": "VaultRegistered",
+			"type": {
+				"kind": "struct",
+				"fields": [
+					{
+						"name": "account",
+						"type": "pubkey"
+					},
+					{
+						"name": "token_address",
+						"type": "pubkey"
+					},
+					{
+						"name": "strategy_id",
+						"type": "u16"
+					},
+					{
+						"name": "open_cooldown_days",
+						"type": "u32"
+					},
+					{
+						"name": "open_date_offset",
+						"type": "u32"
+					},
+					{
+						"name": "minimal_amount",
+						"type": "u64"
+					}
+				]
+			}
+		}
+	],
+	"constants": [
+		{
+			"name": "DATE_NO_OFFSET",
+			"type": "u32",
+			"value": "14400"
+		},
+		{
+			"name": "MAX_CLOSE_REQUEST_SIZE",
+			"type": "u16",
+			"value": "10"
+		},
+		{
+			"name": "MAX_OPEN_REQUEST_SIZE",
+			"type": "u16",
+			"value": "10"
+		},
+		{
+			"name": "MAX_RATE_DENOMINATOR",
+			"type": "u64",
+			"value": "1000000"
+		},
+		{
+			"name": "ONE_DAY_SECONDS",
+			"type": "u32",
+			"value": "86400"
+		},
+		{
+			"name": "PENDING_UNTIL_CLAIM_OFFSET",
+			"type": "u64",
+			"value": "36000"
+		},
+		{
+			"name": "PENDING_UNTIL_CLOSE_OFFSET",
+			"type": "u64",
+			"value": "14400"
+		},
+		{
+			"name": "REQUEST_ID_OFFSET",
+			"type": "u64",
+			"value": "100000000"
+		},
+		{
+			"name": "STRATEGY_AUTO_ID",
+			"type": "u64",
+			"value": "1"
+		},
+		{
+			"name": "STRATEGY_FIX_ID",
+			"type": "u64",
+			"value": "2"
+		},
+		{
+			"name": "STRATEGY_MANUAL_START_ID",
+			"type": "u64",
+			"value": "10"
+		}
+	]
+}

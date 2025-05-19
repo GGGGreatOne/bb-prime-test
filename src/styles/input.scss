@@ -1,0 +1,19 @@
+.input {
+	@apply w-full rounded-xl border border-transparent bg-subtle-bg p-4 pb-12 pr-[100px] font-mono text-[24px] font-semibold focus-visible:border-black/10 focus-visible:bg-[#F9F9F9] focus-visible:outline-none;
+}
+.input.active {
+	@apply border-black/10 bg-[#F9F9F9];
+}
+
+.dark {
+	input::placeholder {
+		color: hsla(0, 0%, 100%, 0.3);
+	}
+	.input {
+		background-color: #1b1b1b;
+		color: #eeeeee;
+	}
+	.input:focus-visible {
+		border-color: white;
+	}
+}

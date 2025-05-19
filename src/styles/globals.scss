@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import './scrollbar.scss';
+@import './table.scss';
+@import './loader.scss';
+@import './input.scss';
+@import './dark.scss';
+@font-face {
+	font-family: 'Forma DJR Micro';
+	src: url('/assets/FormaDJRMicro-Bold.woff2');
+}
+
+@font-face {
+	font-family: 'Forma DJR Micro Light';
+	src: url('/assets/FormaDJRMicro-Light.woff2');
+}
+
+@font-face {
+	font-family: 'Inter Public';
+	src: url('/assets/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+:root {
+	@apply bg-bg text-primary;
+	height: 100%;
+	line-height: 1.25;
+	// background-image: url('/images/misc/bg.png');
+	--shadow-grey: #ccc;
+}
+
+body {
+	height: 100%;
+}
+
+html {
+	scroll-padding-top: 24px;
+	scroll-behavior: smooth;
+}
+
+input:placeholder-shown {
+	text-overflow: ellipsis;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: 500;
+}
+
+b {
+	font-weight: 600;
+}
+
+*:focus-visible {
+	outline: 1.5px solid #202020;
+}
+
+input::placeholder {
+	color: hsla(0, 0%, 0%, 0.3);
+}
+
+.scrollbar-none {
+	scrollbar-width: none;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}
+
+::selection {
+	background-color: #ffc53d;
+	color: white;
+}
+
+*,
+::before,
+::after {
+	border-color: #0000001a;
+}

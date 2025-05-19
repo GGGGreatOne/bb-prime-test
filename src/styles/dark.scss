@@ -1,0 +1,70 @@
+:root.dark {
+	color: #eeeeee;
+	background-color: #181818;
+	--shadow-grey: #666;
+
+	.bg-body {
+		background-color: #282828;
+		border: 1px #ffffff1a solid;
+	}
+
+	.bg-bg {
+		background-color: #181818;
+	}
+
+	.text-primary {
+		color: #eeeeee;
+	}
+	.dark\:text-primary {
+		color: #181818;
+	}
+
+	.text-secondary {
+		color: #b1b1b1;
+	}
+
+	.border-black\/10 {
+		border-color: #ffffff1a;
+	}
+
+	.bg-subtle-bg {
+		background-color: #181818;
+	}
+
+	.disabled\:bg-subtle-bg:disabled {
+		background-color: #ffffff0d;
+	}
+
+	.disabled\:text-black\/30:disabled,
+	.text-black\/30 {
+		color: #ffffff4d;
+	}
+
+	.border,
+	.border-b,
+	.dark\:border {
+		border-color: #ffffff1a;
+	}
+
+	.bg-loading {
+		background-color: #1b1b1b;
+	}
+
+	.text-success {
+		color: #3dd68c;
+	}
+	.text-error {
+		color: #ff8589;
+	}
+	.bg-error-bg {
+		background-color: #3b191d;
+	}
+
+	.hover\:bg-subtle-bg:hover {
+		background-color: #181818;
+	}
+
+	.text-accent {
+		color: #ffcc4d;
+	}
+}

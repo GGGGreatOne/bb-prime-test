@@ -1,0 +1,284 @@
+[
+	{
+		"inputs": [],
+		"name": "totalStaked",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "",
+				"type": "uint16"
+			}
+		],
+		"name": "totalStakedByChannel",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "getAllCloseRequestInfo",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "totalFree",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "totalLocked",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "getAllOpenRequestInfo",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "totalFree",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "totalLocked",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "channelId",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint256",
+				"name": "openRequestId",
+				"type": "uint256"
+			}
+		],
+		"name": "closeRequest",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "channelId",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint256",
+				"name": "closeRequestId",
+				"type": "uint256"
+			}
+		],
+		"name": "claim",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "openRequests",
+		"outputs": [
+			{
+				"internalType": "uint128",
+				"name": "amount",
+				"type": "uint128"
+			},
+			{
+				"internalType": "uint40",
+				"name": "pendingUntil",
+				"type": "uint40"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "closeRequests",
+		"outputs": [
+			{
+				"internalType": "uint128",
+				"name": "amount",
+				"type": "uint128"
+			},
+			{
+				"internalType": "uint40",
+				"name": "pendingUntil",
+				"type": "uint40"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "chainId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint16",
+				"name": "channelId",
+				"type": "uint16"
+			},
+			{
+				"internalType": "uint128",
+				"name": "amount",
+				"type": "uint128"
+			}
+		],
+		"name": "open",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAllChannels",
+		"outputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "string[]",
+				"name": "",
+				"type": "string[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "channelId",
+				"type": "uint16"
+			},
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "getAllOpenRequestIds",
+		"outputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "freeIds",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "lockedIds",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "channelId",
+				"type": "uint16"
+			},
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "getAllCloseRequestIds",
+		"outputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "freeIds",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "lockedIds",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint16",
+				"name": "channelId",
+				"type": "uint16"
+			}
+		],
+		"name": "isOpenFunctionEnabled",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]

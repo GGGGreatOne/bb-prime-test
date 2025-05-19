@@ -1,0 +1,32 @@
+{
+    "short_name": "BB CeDeFi",
+    "name": "BounceBit CeDeFi",
+    "start_url": ".",
+    "form_factor": "wide",
+
+    "icons": [
+        {
+            "src": "images/meta/favicon32x32.png",
+            "type": "image/png",
+            "sizes": "32x32"
+        },
+        {
+            "src": "images/meta/favicon64x64.png",
+            "type": "image/png",
+            "sizes": "64x64"
+        },
+        {
+            "src": "images/meta/favicon128x128.png",
+            "type": "image/png",
+            "sizes": "128x128"
+        },
+        {
+            "src": "images/meta/favicon192x192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        }
+    ],
+    "display": "standalone",
+    "theme_color": "#ffffff",
+    "background_color": "#E2E2D3"
+}

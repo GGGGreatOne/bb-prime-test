@@ -1,0 +1,57 @@
+{
+	"address": "0x3be72FcC9eaBa1283744909b7b8260a4bc8ec956",
+	"abi": [
+		{
+			"inputs": [],
+			"name": "getRewardForDuration",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "getReward",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "account",
+					"type": "address"
+				}
+			],
+			"name": "earned",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "getLastValidProfitMerkleRoot",
+			"outputs": [
+				{
+					"internalType": "bytes32",
+					"name": "",
+					"type": "bytes32"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		}
+	]
+}

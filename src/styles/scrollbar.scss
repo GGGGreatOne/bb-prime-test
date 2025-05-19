@@ -1,0 +1,15 @@
+.windows {
+	scrollbar-width: none;
+	&::-webkit-scrollbar {
+		display: none;
+	}
+	*,
+	*:before,
+	*:after {
+		scrollbar-width: none;
+	}
+
+	*::-webkit-scrollbar {
+		display: none;
+	}
+}
