@@ -24,5 +24,4 @@ export function useLocalUserInfo() {
 
 export function setLocalUserInfo(userInfo: LocalUserInfo) {
 	localUserInfoStore.setState({ userInfo: userInfo })
-	setStorage(LOCAL_USER_INFO, JSON.stringify(userInfo))
 }
