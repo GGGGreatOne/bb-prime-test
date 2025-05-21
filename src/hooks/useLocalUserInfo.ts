@@ -1,5 +1,5 @@
 import { createStore, useStore } from 'zustand'
-// import { getStorage, setStorage } from '@/lib/storage'
+import { setStorage } from '@/lib/storage'
 
 export const LOCAL_USER_INFO = 'LOCAL_USER_INFO'
 
@@ -24,5 +24,5 @@ export function useLocalUserInfo() {
 
 export function setLocalUserInfo(userInfo: LocalUserInfo) {
 	localUserInfoStore.setState({ userInfo: userInfo })
-	// setStorage(LOCAL_USER_INFO, JSON.stringify(userInfo))
+	setStorage(LOCAL_USER_INFO, JSON.stringify(userInfo))
 }

@@ -3,11 +3,13 @@ import { BaseWalletAdapter, SolanaAdapter } from '@reown/appkit-adapter-solana/r
 import { PhantomWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adapter-wallets'
 import { AppKitNetwork, bounceBit } from '@reown/appkit/networks'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { projectId, wagmiAdapter } from './wagmi.reown'
 import { WagmiProvider, type Config } from 'wagmi'
 import { ENV, IS_SOLANA_DEVNET } from '@/const'
 import { bbTestnet } from './wagmi'
+import { LOCAL_USER_INFO, setLocalUserInfo } from '@/hooks/useLocalUserInfo'
+import { getStorage } from '@/lib/storage'
 
 const solanaWeb3JsAdapter = new SolanaAdapter({
 	wallets: [
@@ -46,6 +48,13 @@ createAppKit({
 
 export function Web3Provider({ children }: { children: React.ReactNode }) {
 	const [queryClient] = useState(() => new QueryClient())
+	useEffect(() => {
+		const localUserInfo = localStorage.getItem(LOCAL_USER_INFO)
+		setLocalUserInfo({
+			wallet: JSON.parse(localUserInfo ?? '{}').wallet,
+			token: JSON.parse(localUserInfo ?? '{}').token
+		})
+	}, [])
 	// const devEndpoint = 'https://devnet.helius-rpc.com/?api-key=9fc1bee2-a8b0-4ed5-93f6-a0dfc850013c'
 	return (
 		<WagmiProvider config={wagmiAdapter.wagmiConfig as Config} initialState={undefined}>
