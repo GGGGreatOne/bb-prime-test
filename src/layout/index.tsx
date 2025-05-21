@@ -14,7 +14,6 @@ import { useTheme } from 'next-themes'
 import { usePathname } from 'next/navigation'
 import { Web3Provider } from './provider'
 import Footer from '@/layout/footer'
-import { LocalUserInfoProvider } from '@/layout/localUserInfoProvider'
 // import Updater from '../hooks/transactions/updater'
 
 export default function Layout({ children }: PropsWithChildren<object>) {
@@ -43,20 +42,18 @@ export default function Layout({ children }: PropsWithChildren<object>) {
 	return (
 		<>
 			<Web3Provider>
-				<LocalUserInfoProvider>
-					<div className='relative flex min-h-screen flex-col overflow-hidden font-medium max-sm:block'>
-						{/* <Background /> */}
-						<Header />
-						<MobileHeader />
-						{/* <Updater /> */}
-						{children}
-						<Footer />
-					</div>
+				<div className='relative flex min-h-screen flex-col overflow-hidden font-medium max-sm:block'>
+					{/* <Background /> */}
+					<Header />
+					<MobileHeader />
+					{/* <Updater /> */}
+					{children}
+					<Footer />
+				</div>
 
-					{/*<MobileTabbar />*/}
+				{/*<MobileTabbar />*/}
 
-					<ConnectWallet />
-				</LocalUserInfoProvider>
+				<ConnectWallet />
 			</Web3Provider>
 		</>
 	)

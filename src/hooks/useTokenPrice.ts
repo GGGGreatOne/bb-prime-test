@@ -35,7 +35,7 @@ if (typeof window !== 'undefined') {
 				!circleWay && setTimeout(request, 60 * 1000)
 			})
 	}
-	request()
+	// request()
 }
 
 export function tokenPrice(name: string, prices: null | Price[]) {

@@ -7,7 +7,6 @@ import { useState } from 'react'
 import { SwipeableDrawer } from '@material-ui/core'
 import Link from 'next/link'
 import PrimeBtn from '@/components/button'
-import { CountDownBtn } from '@/layout/CountDownBtn'
 
 const links = [
 	{ name: 'Home', link: '/', out: false },
@@ -46,7 +45,9 @@ export default function MobileHeader() {
 								)
 							})}
 						</div>
-						<CountDownBtn />
+						<Link href='/nftmint' onClick={() => setOpen(false)}>
+							<PrimeBtn className='min-w-[125px] font-medium max-xl:w-[100%]'>NFT Preview</PrimeBtn>
+						</Link>
 						{/* <div>
 							<PrimeBtn
 								onFocus={() => setSignBtnText('Coming Soon')}

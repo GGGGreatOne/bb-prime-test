@@ -4,7 +4,6 @@ import clsx from 'clsx'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useSize } from '@/hooks/useSize'
-import { CountDownBtn } from '@/layout/CountDownBtn'
 // import LightSVG from '@/svgs/theme/light.svg'
 // import DarkSVG from '@/svgs/theme/dark.svg'
 // import { useTheme } from 'next-themes'
@@ -71,7 +70,15 @@ export default function Header() {
 									Complete Tasks
 								</div>
 							</Link>
-							<CountDownBtn />
+							<Link href='/nftmint'>
+								<div
+									className={clsx(
+										'px-4 py-1.5 font-inter text-[18px] text-[rgba(0,0,0,0.8)]',
+										pathname === '/nftmint' ? 'border-b border-[rgba(0,0,0,0.8)]' : ''
+									)}>
+									NFT Preview
+								</div>
+							</Link>
 						</div>
 
 						{/*{init &&*/}

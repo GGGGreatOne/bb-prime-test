@@ -20,6 +20,7 @@ import Partners8 from '@/svgs/partners8.svg'
 import { ReactNode } from 'react'
 import clsx from 'clsx'
 import { Offerings } from '@/components/Offerings'
+import Link from 'next/link'
 
 type SolutionsProps = {
 	index: string
@@ -174,6 +175,54 @@ const PartnersList: Partners[] = [
 	}
 ]
 
+type FeaturedNews = {
+	title: string
+	content: string
+	link: string
+	img: string
+}
+
+const News: FeaturedNews[] = [
+	{
+		title: "BounceBit Pilots Bitcoin Trading Strategy Using BlackRock's BUIDL as Collateral",
+		content: `BounceBit, a crypto infrastructure provider using features from both centralized (CeFi) and decentralized finance (DeFi), has executed a bitcoin (BTC) derivatives trading strategy using BlackRock's yield-generating tokenized money market fund, BUIDL, to enhance returns...`,
+		link: 'https://www.coindesk.com/markets/2025/05/19/bouncebit-pilots-bitcoin-trading-strategy-using-blackrocks-buidl-as-collateral',
+		img: '/assets/news1.png'
+	},
+	{
+		title: `UBS's uMINT Launches on BounceBit via DigiFT`,
+		content:
+			'Following our earlier strategic partnership with DigiFT, Singapore’s first regulated exchange for on-chain real-world assets (RWA) approved by the Monetary Authority of Singapore (MAS), we’re now offering exposure to uMINT — UBS’s first tokenized money market fund, made available through authorized distribution partner DigiFT...',
+		link: 'https://medium.com/@bouncebit/ubss-umint-launches-on-bouncebit-via-digift-b4f9bcc3d5bd',
+		img: '/assets/news2.png'
+	}
+]
+
+const FeaturedNewsItem = (item: FeaturedNews) => {
+	return (
+		<div className='flex flex-col overflow-hidden rounded-[24px]'>
+			<div>
+				<img className='w-full' src={item.img} alt={item.title} />
+			</div>
+			<div className='flex flex-1 flex-col justify-between rounded-[0_0_24px_24px] border-b border-l border-r px-8 py-10 text-start max-xl:px-4 max-xl:py-5'>
+				<div>
+					<p className='max-xl:title-hidden mb-6 h-[62px] text-[24px] font-medium leading-[130%] max-xl:mb-3 max-xl:h-[auto]'>{item.title}</p>
+					<p className='content-hidden font-medium max-xl:min-h-0'>{item.content}</p>
+				</div>
+				<Link href={item.link} className='mt-[70px] flex items-center justify-end gap-4 text-[20px] font-medium max-xl:mt-2' target='_blank'>
+					read more
+					<svg width='27' height='12' viewBox='0 0 27 12' fill='none' xmlns='http://www.w3.org/2000/svg'>
+						<path
+							d='M27 6.00293L17 0.229428L17 11.7764L27 6.00293ZM0 6.00293L-8.7429e-08 7.00293L18 7.00293L18 6.00293L18 5.00293L8.7429e-08 5.00293L0 6.00293Z'
+							fill='black'
+						/>
+					</svg>
+				</Link>
+			</div>
+		</div>
+	)
+}
+
 export default function Home() {
 	return (
 		<main className='bg-[#fff] font-inter'>
@@ -191,9 +240,9 @@ export default function Home() {
 						</p>
 						{/*<PrimeBtn className='w-[125px] font-djr'>Get Started</PrimeBtn>*/}
 						<div className='mt-[33px] flex items-center gap-[40px] max-sm:mt-[40px] max-sm:gap-[24px]'>
-							<PartnersIcon1 className='max-sm:w-[72px]' />
-							<PartnersIcon3 className='max-sm:w-[72px]' />
-							<PartnersIcon2 className='max-sm:w-[72px]' />
+							<PartnersIcon1 className='max-sm:w-[80px]' />
+							<PartnersIcon3 className='max-sm:w-[80px]' />
+							<PartnersIcon2 className='max-sm:w-[80px]' />
 						</div>
 					</div>
 					<div className='mr-[56px] grid grid-cols-[296px_296px] max-xl:m-[0_auto] max-xl:grid-cols-[152px_152px]'>
@@ -289,6 +338,14 @@ export default function Home() {
 			{/*		</div>*/}
 			{/*	</div>*/}
 			{/*</div>*/}
+			<div className='bg-[#F7F7F7] p-[100px_0] text-center max-xl:p-[64px_16px]'>
+				<div className='mb-[80px] text-center text-[52px] font-bold leading-[120%] max-xl:mb-[32px] max-xl:text-[28px]'>Featured News</div>
+				<div className='m-[0_auto] grid max-w-[1312px] grid-cols-2 gap-[24px] max-xl:grid-cols-1'>
+					{News.map(s => {
+						return <FeaturedNewsItem key={s.title} title={s.title} content={s.content} link={s.link} img={s.img} />
+					})}
+				</div>
+			</div>
 			<div className='flex justify-center p-[80px_0_64px] max-xl:p-[40px_16px]'>
 				<div className='max-w-[1312px] overflow-hidden rounded-[0px_0px_100px_0px] bg-[#D7CCAD] p-[64px_0px_0px_64px] max-xl:p-[32px_16px_0]'>
 					<div className='relative'>

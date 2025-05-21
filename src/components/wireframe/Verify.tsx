@@ -16,6 +16,7 @@ import { shortAddress } from '@/lib/utils'
 import { Config, watchAccount } from '@wagmi/core'
 import { useAccountEffect, useConfig } from 'wagmi'
 import { setLocalUserInfo, useLocalUserInfo } from '@/hooks/useLocalUserInfo'
+import { setUserTaskInfo, useUserTaskInfo } from '@/hooks/useUserTaskInfo'
 
 interface VerifyItem {
 	title: string
@@ -23,13 +24,15 @@ interface VerifyItem {
 	action: string
 	method: () => void
 	disabled: boolean
-	verifyMethod?: () => void
+	verifyMethod?: (setLoading: (l: boolean) => void) => void
 	isVerify?: boolean
 	showDisconnect?: boolean
 }
 
 const VerifyItem = ({ title, step, action, isVerify, disabled, method, showDisconnect, verifyMethod }: VerifyItem) => {
+	const [isClient, setIsClient] = useState<boolean>(false)
 	const localUserInfo = useLocalUserInfo()
+	const [checkLoading, setCheckLoading] = useState(false)
 	const token = useMemo(() => {
 		return localUserInfo.token
 	}, [localUserInfo.token])
@@ -37,6 +40,9 @@ const VerifyItem = ({ title, step, action, isVerify, disabled, method, showDisco
 	const verified = useMemo(() => {
 		return isVerify ?? false
 	}, [isVerify])
+	useEffect(() => {
+		setIsClient(true)
+	}, [])
 	return (
 		<div>
 			<div className='mb-[18px] flex items-center justify-between'>
@@ -44,48 +50,56 @@ const VerifyItem = ({ title, step, action, isVerify, disabled, method, showDisco
 					<div className='h-[20px] w-[20px] min-w-[20px] rounded-full bg-body text-center text-[14px]'>{step}</div>
 					<span className='pl-[12px] font-inter text-[18px] text-[#fff] max-xl:text-[14px]'>{title}</span>
 				</div>
-				<div
-					onClick={verifyMethod}
-					className={clsx(
-						'flex h-[28px] cursor-pointer items-center gap-1 rounded-[100px] bg-body p-[3px_10px] text-sm text-primary',
-						step !== 1 && !token ? '!bg-[rgba(255,255,255,0.4)]' : ''
-					)}>
-					{verified ? 'Verified' : 'check'} {verified && <VerifiedSVG />}
-				</div>
+				{isClient && (
+					<div
+						onClick={() => {
+							if (checkLoading) return
+							verifyMethod?.(l => setCheckLoading(l))
+						}}
+						className={clsx(
+							'flex h-[28px] cursor-pointer items-center gap-1 rounded-[100px] bg-body p-[3px_10px] text-sm text-primary',
+							step !== 1 && !token ? '!bg-[rgba(255,255,255,0.4)]' : ''
+						)}>
+						{verified ? 'Verified' : checkLoading ? 'verify...' : 'verify'} {verified && <VerifiedSVG />}
+					</div>
+				)}
 			</div>
-			<PrimeBtn
-				onClick={() => {
-					if (disabled) return
-					method()
-				}}
-				className={clsx('w-[295px] max-xl:w-auto', disabled ? 'cursor-not-allowed bg-[rgba(255,255,255,0.4)]' : '')}>
-				{action}
-			</PrimeBtn>
-			{showDisconnect && (
-				<PrimeBtn className='ml-4' onClick={disconnect}>
-					Disconnect
-				</PrimeBtn>
+			{isClient && (
+				<>
+					<PrimeBtn
+						onClick={() => {
+							if (disabled) return
+							method()
+						}}
+						className={clsx('w-[295px] max-xl:w-auto', disabled ? 'cursor-not-allowed bg-[rgba(255,255,255,0.4)]' : '')}>
+						{action}
+					</PrimeBtn>
+					{showDisconnect && (
+						<PrimeBtn className='ml-4' onClick={disconnect}>
+							Disconnect
+						</PrimeBtn>
+					)}
+				</>
 			)}
 		</div>
 	)
 }
 
-const QUOTE_TWEET_URL = 'https://x.com/bounce_bit/status/1887490105742700813'
+const QUOTE_TWEET_URL = 'https://x.com/bounce_bit/status/1924449986449993818'
 
 export const Verify = () => {
 	const { address } = useConnectedAddress()
 	const { open: ConnectWallet } = useAppKit()
 	const [open, setOpen] = useState(false)
 	const [hasShowTip, setHasShowTip] = useState(false)
-	const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined)
-
+	const userInfo = useUserTaskInfo()
 	const localUserInfo = useLocalUserInfo()
 	const token = localUserInfo.token
 	const { login: _login } = useLogin()
 	const wagmiConfig = useConfig() as Config
 	const resetInfo = useCallback(() => {
 		setJWTToken(null)
-		setUserInfo(undefined)
+		setUserTaskInfo(undefined)
 		setLocalUserInfo({
 			wallet: '',
 			token: ''
@@ -110,7 +124,7 @@ export const Verify = () => {
 					Authorization: `Bearer ${token}`
 				}
 			})
-			setUserInfo(rep.data.data)
+			setUserTaskInfo(rep.data.data)
 		},
 		{
 			ready: !!token,
@@ -124,25 +138,39 @@ export const Verify = () => {
 		getUserInfo()
 	}, [getUserInfo, _login])
 
-	const followCheck = useCallback(async () => {
-		await NFTApi({
-			url: '/extra/prime/x/follow/check',
-			method: 'get',
-			headers: {
-				Authorization: `Bearer ${token}`
-			}
-		})
-	}, [token])
+	const followCheck = useCallback(
+		async (setLoading: (l: boolean) => void) => {
+			setLoading(true)
+			await NFTApi({
+				url: '/extra/prime/x/follow/check',
+				method: 'get',
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			})
+			setTimeout(() => {
+				setLoading(false)
+			}, 15000)
+		},
+		[token]
+	)
 
-	const discordCheck = useCallback(async () => {
-		await NFTApi({
-			url: '/extra/prime/discord/guilds/check',
-			method: 'get',
-			headers: {
-				Authorization: `Bearer ${token}`
-			}
-		})
-	}, [token])
+	const discordCheck = useCallback(
+		async (setLoading: (l: boolean) => void) => {
+			setLoading(true)
+			await NFTApi({
+				url: '/extra/prime/discord/guilds/check',
+				method: 'get',
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			})
+			setTimeout(() => {
+				setLoading(false)
+			}, 15000)
+		},
+		[token]
+	)
 
 	const authDisc = useCallback(async () => {
 		if (!address) {
@@ -181,15 +209,22 @@ export const Verify = () => {
 		window.open('https://discord.com/invite/bouncebit', '_blank')
 	}, [])
 
-	const quoteTwitterCheck = useCallback(async () => {
-		await NFTApi({
-			url: '/extra/prime/x/quote/check',
-			method: 'get',
-			headers: {
-				Authorization: `Bearer ${token}`
-			}
-		})
-	}, [token])
+	const quoteTwitterCheck = useCallback(
+		async (setLoading: (l: boolean) => void) => {
+			setLoading(true)
+			await NFTApi({
+				url: '/extra/prime/x/quote/check',
+				method: 'get',
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			})
+			setTimeout(() => {
+				setLoading(false)
+			}, 15000)
+		},
+		[token]
+	)
 
 	const quoteTwitter = useCallback(() => {
 		const tweetUrl = QUOTE_TWEET_URL
@@ -198,7 +233,7 @@ export const Verify = () => {
 			'a new chapter in capital markets begins.\n\n' +
 			'The black rocks NFT marks that movement.\n' +
 			"I'll be minting soon. There's only 1,000 available."
-		const encodedText = encodeURIComponent(comment + '\n\n' + tweetUrl)
+		const encodedText = encodeURIComponent(comment + '\n' + tweetUrl)
 		window.open(`https://twitter.com/intent/tweet?text=${encodedText}`, '_blank', 'width=600,height=600')
 	}, [])
 
@@ -274,6 +309,7 @@ export const Verify = () => {
 						isVerify={v.isVerify}
 						method={v.method}
 						disabled={v.disabled}
+						verifyMethod={v?.verifyMethod}
 					/>
 				)
 			})}

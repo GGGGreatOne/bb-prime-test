@@ -7,12 +7,14 @@ export const MintSuccessDialog = ({
 	open,
 	setOpen,
 	tokenId,
+	attributes,
 	tx
 }: {
 	share: () => void
 	open: boolean
 	setOpen: (open: boolean) => void
 	tokenId?: number
+	attributes?: string
 	tx?: string
 }) => {
 	return (
@@ -34,8 +36,8 @@ export const MintSuccessDialog = ({
 				<div className='text-start text-[18px]'>
 					<ul>
 						<li className='pb-4'>NFT Details:</li>
-						<li className='pb-4'>Name: black rocks #{tokenId}/1,000</li>
-						<li className='pb-4'>Collection: BounceBit Prime x BlackRock</li>
+						<li className='pb-4'>Collection: black rocks #{tokenId}/1,000</li>
+						<li className='pb-4'>Rarity: {attributes}</li>
 						<li>
 							<Link href={`https://bbscan.io/tx/${tx}`} target='_blank'>
 								Chain: BounceBit | <span className='underline'>View Transaction</span>

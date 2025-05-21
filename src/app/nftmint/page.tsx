@@ -2,11 +2,10 @@
 import PrimeBtn from '@/components/button'
 import { Drop } from '@/components/Drop'
 import { useConnectedAddress } from '@/hooks/useWallet'
-import { useJWTToken } from '@/hooks/useJWTToken'
 import { useCallback, useEffect, useState } from 'react'
 import { MintDialog } from '@/components/mintNft/MintDialog'
 import clsx from 'clsx'
-import { useReadContract } from 'wagmi'
+import { useAccountEffect, useReadContract } from 'wagmi'
 import nfTAbi from '@/contract/json/BouncebitPrimeNFT.json'
 import { PRIME_NFT } from '@/contract/primeNFT'
 import BigNumber from 'bignumber.js'
@@ -16,13 +15,13 @@ import { TokenUrlResp } from '@/app/nftmint/type'
 import { Operational } from '@/components/mintNft/Operational'
 import ArrowRight from '@/svgs/arrow_right_white.svg'
 import { MintSuccessDialog } from '@/components/mintNft/MintSuccessDialog'
+import { setLocalUserInfo, useLocalUserInfo } from '@/hooks/useLocalUserInfo'
 
 export type Hash = `0x${string}`
 export default function NftMint() {
-	// TODO: watch address change
 	const { address } = useConnectedAddress()
 
-	const token = useJWTToken()
+	const { token, wallet: localWallet } = useLocalUserInfo()
 
 	const [open, setOpen] = useState(false)
 	const [openClaimed, setOpenClaimed] = useState(false)
@@ -37,16 +36,19 @@ export default function NftMint() {
 		args: [address]
 	})
 
-	const { data: tokenUrl, loading } = useRequest(
+	const { data: metadata, loading } = useRequest(
 		async () => {
 			const res = await NFTApi<TokenUrlResp>({
-				url: `/prime/${userTokenId}.json`,
+				url: `/extra/prime/${userTokenId}.json`,
 				method: 'get',
 				headers: {
 					Authorization: `Bearer ${token}`
 				}
 			})
-			return res.data.image
+			return {
+				tokenUrl: res.data.image,
+				attributes: res.data.attributes[0].value
+			}
 		},
 		{
 			ready: !!userTokenId && minted,
@@ -64,8 +66,27 @@ export default function NftMint() {
 		}
 	}, [userTokenIdRes, address])
 
+	useEffect(() => {
+		if (address && address !== localWallet) {
+			setLocalUserInfo({
+				wallet: '',
+				token: ''
+			})
+		}
+	}, [address, localWallet])
+
+	useAccountEffect({
+		onDisconnect() {
+			setLocalUserInfo({
+				wallet: '',
+				token: ''
+			})
+		}
+	})
+
 	const shareOn = useCallback(() => {
-		const text = 'I just claimed my ‘black rocks’ NFT — 1 of only 1,000 ever minted on @BounceBit. A new era of institutional-grade RWAs begins'
+		const href = window.location.href
+		const text = href + '\n I just claimed my ‘black rocks’ NFT — 1 of only 1,000 ever minted on @BounceBit. A new era of institutional-grade RWAs begins'
 		const hashtags = 'BounceBitPrime#BB'
 		const intentUrl = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text ?? '') + '&hashtags=' + encodeURIComponent(hashtags)
 		window.open(intentUrl, '_blank', 'width=600,height=600')
@@ -78,7 +99,16 @@ export default function NftMint() {
 	return (
 		<div className='min-h-[calc(100vh-150px)] bg-[#fff] pt-[140px] font-inter font-normal leading-[130%] max-xl:px-4 max-sm:pt-[56px]'>
 			{open && <MintDialog tx={tx} state={state} setTx={s => setTx(s)} setState={s => setState(s)} setOpen={o => setOpen(o)} />}
-			{openClaimed && <MintSuccessDialog tx={tx} share={shareOn} open={openClaimed} tokenId={userTokenId} setOpen={o => setOpenClaimed(o)} />}
+			{openClaimed && (
+				<MintSuccessDialog
+					attributes={metadata?.attributes}
+					tx={tx}
+					share={shareOn}
+					open={openClaimed}
+					tokenId={userTokenId}
+					setOpen={o => setOpenClaimed(o)}
+				/>
+			)}
 			<div className='m-[0_auto] flex max-w-[1312px] flex-col justify-center'>
 				<div className='mb-[60px] flex justify-between max-xl:mb-12 max-xl:flex-col'>
 					<div className='relative flex flex-col justify-between overflow-hidden text-center'>
@@ -94,21 +124,35 @@ export default function NftMint() {
 					</div>
 					<div className='relative'>
 						<div className='relative z-[3] m-[0_auto] w-[480px] rounded-[200px_0_0_0] bg-[#1C3F3A] p-6 max-xl:w-full max-xl:rounded-[140px_0_0_0] max-xl:p-4'>
-							{!loading && minted && tokenUrl && userTokenId && userTokenId > 0 && (
-								<img className='rounded-[190px_0_0_0] max-xl:rounded-[124px_0_0_0]' src={tokenUrl} alt='NFT1' />
+							{!loading && minted && metadata?.tokenUrl && userTokenId && userTokenId > 0 && (
+								<>
+									<img className='rounded-[176px_0_0_0] max-xl:rounded-[124px_0_0_0]' src={metadata?.tokenUrl} alt='NFT1' />
+									<div className='p-[0_0_16px] text-right'>
+										<p
+											className={clsx(
+												'inline-block bg-gradient-to-r from-[rgba(255,255,255,1)] to-[rgba(255,255,255,0.05)] bg-clip-text text-[60px] font-medium leading-[136%] text-transparent max-xl:text-[45px]',
+												!minted && 'pb-[80px]'
+											)}>
+											{metadata?.attributes}
+										</p>
+									</div>
+								</>
 							)}
-							{(loading || (!minted && (!tokenUrl || !userTokenId || userTokenId === 0))) && (
-								<img className='rounded-[190px_0_0_0] max-xl:rounded-[124px_0_0_0]' src='/assets/default_nft.gif' alt='NFT2' />
+							{(loading || (!minted && (!metadata?.tokenUrl || !userTokenId || userTokenId === 0))) && (
+								<>
+									<div className='p-[0_0_16px] text-right'>
+										<img className='rounded-[176px_0_0_0] max-xl:rounded-[124px_0_0_0]' src='/assets/default_nft.gif' alt='NFT2' />
+										<p
+											className={clsx(
+												'inline-block bg-gradient-to-r from-[rgba(255,255,255,1)] to-[rgba(255,255,255,0.05)] bg-clip-text pt-4 text-[60px] font-medium leading-[136%] text-transparent max-xl:text-[45px]',
+												!minted && 'pb-[80px]'
+											)}>
+											black rocks
+										</p>
+									</div>
+								</>
 							)}
-							<div className='p-[16px_0] text-right'>
-								<p
-									className={clsx(
-										'inline-block bg-gradient-to-r from-[rgba(255,255,255,1)] to-[rgba(255,255,255,0.05)] bg-clip-text text-[60px] font-medium leading-[136%] text-transparent max-xl:text-[45px]',
-										!minted && 'pb-[80px]'
-									)}>
-									black rocks
-								</p>
-							</div>
+
 							{minted && (
 								<>
 									<div className='mb-4 text-right'>

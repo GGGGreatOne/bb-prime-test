@@ -5,7 +5,8 @@ import { LoginResp } from '@/app/tasks/type'
 import { setJWTToken } from '@/hooks/useJWTToken'
 import { useSignMessage } from 'wagmi'
 import { useConnectedAddress } from '@/hooks/useWallet'
-import { setLocalUserInfo } from '@/hooks/useLocalUserInfo'
+import { LOCAL_USER_INFO, setLocalUserInfo } from '@/hooks/useLocalUserInfo'
+import { setStorage } from '@/lib/storage'
 
 export const useLogin = () => {
 	const { address } = useConnectedAddress()
@@ -28,6 +29,13 @@ export const useLogin = () => {
 					wallet: address,
 					token: rep.data.data.jwt
 				})
+				// setStorage(
+				// 	LOCAL_USER_INFO,
+				// 	JSON.stringify({
+				// 		wallet: address,
+				// 		token: rep.data.data.jwt
+				// 	})
+				// )
 			}
 			console.log(rep)
 		} catch (e) {

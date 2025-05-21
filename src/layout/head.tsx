@@ -31,10 +31,8 @@ export default function Head() {
 			<meta name='twitter:image:height' content='720' />
 			<link rel='preconnect' href='https://fonts.googleapis.com' />
 			<link rel='preconnect' href='https://fonts.gstatic.com' crossOrigin='anonymous' />
-			<link
-				href='https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;500;600&family=Inter:ital,opsz,wght@400;500;600;700&family=Roboto+Mono&display=swap'
-				rel='stylesheet'></link>
-			<Script src='https://www.googletagmanager.com/gtag/js?id=G-WHLZ4ND9QC' />
+			<link href='https://fonts.googleapis.com/css2?family=Bai+Jamjuree:wght@400;500;600&family=Roboto+Mono&display=swap' rel='stylesheet'></link>
+			<Script src='https://www.googletagmanager.com/gtag/js?id=G-7Z2SVF6WPD' />
 			<Script id='google-analytics'>
 				{`
           window.dataLayer = window.dataLayer || []
@@ -43,7 +41,7 @@ export default function Head() {
 					}
 					gtag('js', new Date())
 		
-					gtag('config', 'G-WHLZ4ND9QC')
+					gtag('config', 'G-7Z2SVF6WPD')
         `}
 			</Script>
 		</head>

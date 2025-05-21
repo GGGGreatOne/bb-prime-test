@@ -6,7 +6,7 @@
 @import './table.scss';
 @import './loader.scss';
 @import './input.scss';
-@import './dark.scss';
+// @import './dark.scss';
 @font-face {
 	font-family: 'Forma DJR Micro';
 	src: url('/assets/FormaDJRMicro-Bold.woff2');
@@ -75,6 +75,7 @@ input::placeholder {
 	}
 }
 
+
 ::selection {
 	background-color: #ffc53d;
 	color: white;
@@ -84,4 +85,21 @@ input::placeholder {
 ::before,
 ::after {
 	border-color: #0000001a;
+}
+
+@layer components {
+	.title-hidden {
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.content-hidden {
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 4;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
 }

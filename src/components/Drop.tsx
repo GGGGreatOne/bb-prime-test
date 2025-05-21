@@ -13,7 +13,7 @@ export const Drop = ({ whiteText }: { whiteText?: boolean }) => {
 				This NFT marks BounceBit Prime’s entry into structured RWA yield — where tokenized Treasuries meet institutional-grade trading
 			</p>
 			<p className='mb-6 max-w-[746px] max-sm:text-[16px]'>
-				“black rocks” ushers in a new era of capital efficiency, with BlackRock’s BUIDL fund utilized as on-chain collateral.
+				{`"black rocks"`} ushers in a new era of capital efficiency, with BlackRock’s BUIDL fund utilized as on-chain collateral.
 			</p>
 			<p className='mb-6 max-sm:text-[16px]'>Only 1,000 will ever exist — entrusted to the few who lead, not follow.</p>
 			<p className='mb-6 max-sm:text-[16px]'>Minted exclusively on the BounceBit chain. Free of cost. Eternal in value</p>
