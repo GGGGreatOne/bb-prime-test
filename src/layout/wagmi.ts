@@ -4,7 +4,7 @@ import { getWagmiConnectorV2 } from '@binance/w3w-wagmi-connector-v2'
 import { http, createConfig } from 'wagmi'
 // import { mainnet, sepolia, bsc, base } from 'wagmi/chains'
 import { ENV } from '@/const'
-import { metaMask, walletConnect } from 'wagmi/connectors'
+import { walletConnect } from 'wagmi/connectors'
 
 const bb = {
 	id: 6001,
@@ -50,7 +50,7 @@ const chains = ENV === 'mainnet' ? [bb] : [bb, bbTestnet]
 
 export const configParams: any = {
 	chains: chains,
-	connectors: [metaMask(), walletConnect({ projectId: '63982669715ffad2503de874184bcd1e' }), binanceConnector()],
+	connectors: [walletConnect({ projectId: '63982669715ffad2503de874184bcd1e' }), binanceConnector()],
 	transports: {
 		// [mainnet.id]: http(ETH_RPC),
 		// [bsc.id]: http(BSC_RPC),
