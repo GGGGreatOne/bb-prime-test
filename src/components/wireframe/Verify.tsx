@@ -11,7 +11,6 @@ import { useRequest } from 'ahooks'
 import clsx from 'clsx'
 import { CompleteDialog } from '@/components/wireframe/CompleteDialog'
 import { useLogin } from '@/hooks/useLogin'
-import { UserInfo } from '@/hooks/useUserInfo'
 import { shortAddress } from '@/lib/utils'
 import { Config, watchAccount } from '@wagmi/core'
 import { useAccountEffect, useConfig } from 'wagmi'
@@ -30,7 +29,6 @@ interface VerifyItem {
 }
 
 const VerifyItem = ({ title, step, action, isVerify, disabled, method, showDisconnect, verifyMethod }: VerifyItem) => {
-	const [isClient, setIsClient] = useState<boolean>(false)
 	const localUserInfo = useLocalUserInfo()
 	const [checkLoading, setCheckLoading] = useState(false)
 	const token = useMemo(() => {
@@ -40,9 +38,6 @@ const VerifyItem = ({ title, step, action, isVerify, disabled, method, showDisco
 	const verified = useMemo(() => {
 		return isVerify ?? false
 	}, [isVerify])
-	useEffect(() => {
-		setIsClient(true)
-	}, [])
 	return (
 		<div>
 			<div className='mb-[18px] flex items-center justify-between'>
@@ -50,36 +45,30 @@ const VerifyItem = ({ title, step, action, isVerify, disabled, method, showDisco
 					<div className='h-[20px] w-[20px] min-w-[20px] rounded-full bg-body text-center text-[14px]'>{step}</div>
 					<span className='pl-[12px] font-inter text-[18px] text-[#fff] max-xl:text-[14px]'>{title}</span>
 				</div>
-				{isClient && (
-					<div
-						onClick={() => {
-							if (checkLoading) return
-							verifyMethod?.(l => setCheckLoading(l))
-						}}
-						className={clsx(
-							'flex h-[28px] cursor-pointer items-center gap-1 rounded-[100px] bg-body p-[3px_10px] text-sm text-primary',
-							step !== 1 && !token ? '!bg-[rgba(255,255,255,0.4)]' : ''
-						)}>
-						{verified ? 'Verified' : checkLoading ? 'verify...' : 'verify'} {verified && <VerifiedSVG />}
-					</div>
-				)}
+				<div
+					onClick={() => {
+						if (checkLoading) return
+						verifyMethod?.(l => setCheckLoading(l))
+					}}
+					className={clsx(
+						'flex h-[28px] cursor-pointer items-center gap-1 rounded-[100px] bg-body p-[3px_10px] text-sm text-primary',
+						step !== 1 && !token ? '!bg-[rgba(255,255,255,0.4)]' : ''
+					)}>
+					{verified ? 'Verified' : checkLoading ? 'verify...' : 'verify'} {verified && <VerifiedSVG />}
+				</div>
 			</div>
-			{isClient && (
-				<>
-					<PrimeBtn
-						onClick={() => {
-							if (disabled) return
-							method()
-						}}
-						className={clsx('w-[295px] max-xl:w-auto', disabled ? 'cursor-not-allowed bg-[rgba(255,255,255,0.4)]' : '')}>
-						{action}
-					</PrimeBtn>
-					{showDisconnect && (
-						<PrimeBtn className='ml-4' onClick={disconnect}>
-							Disconnect
-						</PrimeBtn>
-					)}
-				</>
+			<PrimeBtn
+				onClick={() => {
+					if (disabled) return
+					method()
+				}}
+				className={clsx('w-[295px] max-xl:w-auto', disabled ? 'cursor-not-allowed bg-[rgba(255,255,255,0.4)]' : '')}>
+				{action}
+			</PrimeBtn>
+			{showDisconnect && (
+				<PrimeBtn className='ml-4' onClick={disconnect}>
+					Disconnect
+				</PrimeBtn>
 			)}
 		</div>
 	)
